@@ -1,5 +1,6 @@
 #include "monty.h"
 
+arg_t arg = {0, 0};
 
 /**
  * comment_check - checks if line is a comment
@@ -59,7 +60,7 @@ bool argument_check(char *token)
  *
  * Return: Nothing.
  */
-void push_check(line_t line, meta_t *meta, char *opcode, arg_t *arg)
+void push_check(line_t line, meta_t *meta, char *opcode)
 {
 	if ((strcmp(opcode, "push") == 0) && !argument_check(line.content[1]))
 	{
