@@ -1,7 +1,5 @@
 #include "monty.h"
 
-arg_t arg = {0, 0};
-
 /**
  * comment_check - checks if line is a comment
  * @line: struct containing line contents and line number
@@ -57,10 +55,10 @@ bool argument_check(char *token)
  * @line: struct containing line contents and line number
  * @opcode: the opcode to compare
  * @meta: struct containing all allocated memory
- *
+ * @arg: pointer to the global argument variable
  * Return: Nothing.
  */
-void push_check(line_t line, meta_t *meta, char *opcode)
+void push_check(line_t line, meta_t *meta, char *opcode, arg_t *arg)
 {
 	if ((strcmp(opcode, "push") == 0) && !argument_check(line.content[1]))
 	{
