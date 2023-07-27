@@ -1,6 +1,5 @@
 #include "monty.h"
 
-
 /**
  * comment_check - checks if line is a comment
  * @line: struct containing line contents and line number
@@ -9,8 +8,6 @@
  */
 bool comment_check(line_t line)
 {
-	arg_t arg = {0, 0};
-
 	if (!line.content[0])
 	{
 		free(line.content);
@@ -34,7 +31,6 @@ bool comment_check(line_t line)
  */
 bool argument_check(char *token)
 {
-	arg_t arg = {0, 0};
 	unsigned int i;
 
 	if (!token)
@@ -54,28 +50,25 @@ bool argument_check(char *token)
 }
 
 /**
- * push_check - check if push opcode is being used and sets global
- * argument variable if true
+ * push_check - check if push opcode is being used and validates the argument
  * @line: struct containing line contents and line number
  * @opcode: the opcode to compare
  * @meta: struct containing all allocated memory
  *
- * Return: Nothing.
+ * Return: 0 on success, -1 on failure
  */
-void push_check(line_t line, meta_t *meta, char *opcode)
+int push_check(line_t line, meta_t *meta, char *opcode)
 {
-	arg_t arg = {0, 0};
-
-	if ((strcmp(opcode, "push") == 0) && !argument_check(line.content[1]))
+	if (strcmp(opcode, "push") == 0)
 	{
-		free(line.content);
-		fprintf(stderr, "L%d: usage: push integer\n", line.number);
-		free(meta->buf);
-		free_stack(&(meta->stack));
-		fclose(meta->file);
-		free(meta);
-		exit(EXIT_FAILURE);
+		if (!argument_check(line.content[1]))
+		{
+			free_stack(&(meta->stack));
+			return (-1);
+		}
+
+		int arg_value = atoi(line.content[1]);
 	}
-	else if (strcmp(opcode, "push") == 0)
-		arg.arg = atoi(line.content[1]);
+
+	return (0);
 }
