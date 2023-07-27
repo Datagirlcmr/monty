@@ -50,25 +50,28 @@ bool argument_check(char *token)
 }
 
 /**
- * push_check - check if push opcode is being used and validates the argument
+ * push_check - check if push opcode is being used and sets global
+ * argument variable if true
  * @line: struct containing line contents and line number
  * @opcode: the opcode to compare
  * @meta: struct containing all allocated memory
  *
- * Return: 0 on success, -1 on failure
+ * Return: Nothing.
  */
-int push_check(line_t line, meta_t *meta, char *opcode)
+void push_check(line_t line, meta_t *meta, char *opcode)
 {
-	if (strcmp(opcode, "push") == 0)
+	arg_t arg = {0, 0};
+
+	if ((strcmp(opcode, "push") == 0) && !argument_check(line.content[1]))
 	{
-		if (!argument_check(line.content[1]))
-		{
-			free_stack(&(meta->stack));
-			return (-1);
-		}
-
-		int arg_value = atoi(line.content[1]);
+		free(line.content);
+		fprintf(stderr, "L%d: usage: push integer\n", line.number);
+		free(meta->buf);
+		free_stack(&(meta->stack));
+		fclose(meta->file);
+		free(meta);
+		exit(EXIT_FAILURE);
 	}
-
-	return (0);
+	else if (strcmp(opcode, "push") == 0)
+		arg.arg = atoi(line.content[1]);
 }
