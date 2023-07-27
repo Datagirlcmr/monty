@@ -9,6 +9,8 @@
  */
 bool comment_check(line_t line)
 {
+	arg_t arg = {0, 0};
+
 	if (!line.content[0])
 	{
 		free(line.content);
@@ -32,6 +34,7 @@ bool comment_check(line_t line)
  */
 bool argument_check(char *token)
 {
+	arg_t arg = {0, 0};
 	unsigned int i;
 
 	if (!token)
@@ -61,6 +64,8 @@ bool argument_check(char *token)
  */
 void push_check(line_t line, meta_t *meta, char *opcode)
 {
+	arg_t arg = {0, 0};
+
 	if ((strcmp(opcode, "push") == 0) && !argument_check(line.content[1]))
 	{
 		free(line.content);
