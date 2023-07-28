@@ -94,8 +94,7 @@ void parseline(line_t *line, char *buffer);
 
 /* Verification functions */
 bool comment_check(line_t line);
-bool argument_check(char *token);
-void push_check(line_t line, meta_t *meta, char *opcode, arg_t *arg);
+void push_check(line_t line, meta_t *meta, char *opcode);
 
 /* Stack manipulation functions */
 void push(stack_t **stack, unsigned int nline);
